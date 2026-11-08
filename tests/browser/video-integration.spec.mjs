@@ -8,7 +8,7 @@ export async function scrub(page, progress) {
   }, progress);
 }
 
-test('natural entry keeps opening photograph separate and does not steal initial focus or download video', async ({
+test('natural entry keeps opening photograph separate and prepares one paused video without stealing focus', async ({
   page,
 }) => {
   const videos = [];
@@ -18,7 +18,8 @@ test('natural entry keeps opening photograph separate and does not steal initial
   await page.goto('/');
   await expect(page.locator('.journey-panel')).toHaveCount(1);
   expect(await page.evaluate(() => scrollY)).toBe(0);
-  expect(videos).toEqual([]);
+  await expect.poll(() => videos.length).toBe(1);
+  await expect(page.locator('video')).toHaveJSProperty('paused', true);
   await expect(page.locator('.hero-media img')).toHaveAttribute(
     'src',
     '/images/hero-ritual.webp',
@@ -87,7 +88,7 @@ for (const [name, width, height] of [
   });
 }
 
-test('menu skips animation without fetching MP4, and reverse scrolling can enter it later', async ({
+test('menu skips animation while background preparation continues, and reverse scrolling can enter it later', async ({
   page,
 }) => {
   const videos = [];
@@ -97,7 +98,8 @@ test('menu skips animation without fetching MP4, and reverse scrolling can enter
   await page.goto('/');
   await page.getByRole('navigation').getByRole('link', { name: 'Kahvelerimiz' }).click();
   await expect(page.locator('#kahveler')).toBeFocused();
-  expect(videos).toEqual([]);
+  await expect.poll(() => videos.length).toBe(1);
+  await expect(page.locator('video')).toHaveJSProperty('paused', true);
   await scrub(page, 0.9);
   await expect(page.locator('.journey-media')).toHaveAttribute('data-kind', 'video');
   await expect
@@ -154,6 +156,9 @@ for (const id of ['kahveler', 'hikayemiz', 'iletisim', 'kahve-turkish']) {
     await page.goto('/#' + id);
     await expect(page.locator('#' + id)).toBeFocused();
     await expect(page.locator('#' + id)).toBeInViewport();
-    expect(videos).toEqual([]);
+    await expect.poll(() => videos.length).toBe(1);
+    await expect(page.locator('video')).toHaveJSProperty('paused', true);
+    await expect(page.locator('#' + id)).toBeFocused();
+    await expect(page.locator('#' + id)).toBeInViewport();
   });
 }

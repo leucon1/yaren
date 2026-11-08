@@ -229,7 +229,19 @@ test('a new recommendation clears an older highlight, uses no service, and outsi
   await page.locator('#kahve-filter').click({ position: { x: 20, y: 20 } });
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.locator('#kahve-filter')).toBeFocused();
-  expect(serviceRequests.filter((url) => !url.endsWith('/journey-media.json'))).toEqual(
-    [],
-  );
+  // v11 prepares the selected static MP4 in the background. This is a local
+  // asset fetch, not a recommender service/API request.
+  const origin = new URL(page.url()).origin;
+  expect(
+    serviceRequests.every((url) => {
+      const request = new URL(url);
+      return (
+        request.origin === origin &&
+        ['/journey-media.json', '/video/yaren-scroll.mp4'].includes(request.pathname)
+      );
+    }),
+  ).toBe(true);
+  expect(
+    serviceRequests.filter((url) => url.endsWith('.mp4')).length,
+  ).toBeLessThanOrEqual(1);
 });

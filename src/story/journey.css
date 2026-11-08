@@ -361,6 +361,70 @@
   );
   filter: blur(14px);
 }
+/* Neutral, wider feathering avoids a small green patch over the cup scene. */
+.journey-annotation[data-phase='2'] .journey-caption::before {
+  inset: -80px -100px;
+  background: radial-gradient(
+    ellipse at 40% 50%,
+    #17161199 0%,
+    #17161152 40%,
+    #1716111a 65%,
+    transparent 85%
+  );
+  filter: blur(28px);
+}
+.journey-stage:has(.journey-media[data-format='portrait'])
+  .journey-annotation[data-phase='0']
+  .journey-caption {
+  width: min(100% - 104px, 330px);
+}
+.journey-stops {
+  position: absolute;
+  z-index: 3;
+  right: max(8px, env(safe-area-inset-right));
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+.journey-stops::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 22px;
+  bottom: 22px;
+  left: calc(50% - 0.5px);
+  width: 1px;
+  background: #f4f1ea66;
+}
+.journey-stops button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f4f1ea;
+}
+.journey-stops button > span {
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #17161180;
+}
+.journey-stops button[aria-current='step'] > span {
+  background: currentColor;
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+.journey-stops button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -4px;
+  border-radius: 2px;
+}
 .journey-caption .eyebrow {
   color: #f4f1ea;
   margin-bottom: 16px;
@@ -440,6 +504,12 @@
 }
 .journey-panel.has-error .journey-scroll-hint {
   display: none;
+}
+.journey-panel.has-error .journey-status {
+  top: auto;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 24px;
+  max-width: min(480px, 100% - 48px);
 }
 .visually-hidden {
   position: absolute;

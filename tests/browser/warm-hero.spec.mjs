@@ -57,7 +57,12 @@ for (const [name, width, height] of [
     expect(await page.locator('.hero img').evaluate((img) => img.currentSrc)).toContain(
       'hero-ritual',
     );
-    expect(videos).toEqual([]);
+    // v11 intentionally prepares one selected source after critical hero assets.
+    await expect.poll(() => videos.length).toBe(1);
+    expect(videos[0]).toContain(
+      width < height ? 'yaren-scroll-portrait.mp4' : 'yaren-scroll.mp4',
+    );
+    expect(await page.evaluate(() => scrollY)).toBe(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     await page.mouse.wheel(0, Math.round(height * 1.15));
     await expect(page.locator('.journey-media')).toHaveAttribute('data-kind', 'video');

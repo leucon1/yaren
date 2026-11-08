@@ -55,7 +55,9 @@ for (const [name, width, height] of sizes) {
     await page.setViewportSize({ width, height });
     await page.goto(url);
     await page.evaluate(() => document.fonts.ready);
-    expect(videos).toEqual([]);
+    // Preparation now starts after hero decode, before the first scroll.
+    await page.locator('.hero img').evaluate((img) => img.decode());
+    await expect.poll(() => videos.length).toBe(1);
     const openingBottom = await page
       .locator('.hero')
       .evaluate((el) => el.getBoundingClientRect().bottom);
