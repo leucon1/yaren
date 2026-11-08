@@ -87,6 +87,8 @@ Testler; form doğrulamasını, navigasyon ve klavye etkileşimlerini, responsiv
 
 Windows WebKit ortamında onaylı MP4'leri çözmek için gereken H.264 desteği bulunmayabilir. İlgili test bu ortamda erişilebilir alternatif görünümü kontrol eder; gerçek iPhone Safari video uyumluluğunu kanıtlamaz. Fiziksel cihaz testi, tarayıcı emülasyonundan ayrı değerlendirilir.
 
+**Gerçek cihaz testleri:** Yâren'in canlı sürümü **iPhone 13** ve **Samsung Galaxy Tab S8** üzerinde manuel olarak kontrol edilmiştir. Responsive görünüm, sayfa navigasyonu ve temel kullanıcı etkileşimleri değerlendirilmiş; iPhone 13 üzerinde 9:16 sinematik deneyimi ayrıca test edilmiştir. Bu kontroller, Playwright ile gerçekleştirilen otomatik tarayıcı testlerinden bağımsızdır.
+
 ## Proje yapısı
 
 ```text
