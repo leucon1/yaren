@@ -1,60 +1,70 @@
 # Yâren
 
-A premium coffee brand experience built with React and Vite. Yâren brings traditional Turkish coffee culture into a calm, contemporary interface, guided by the brand's signature line: **“Her fincanda ortak bir hikâye.”** — _A shared story in every cup._
+React ve Vite ile geliştirilmiş, premium bir kahve markası deneyimi. Yâren, geleneksel Türk kahvesi kültürünü sade ve çağdaş bir arayüzle buluşturur. Markanın ana sloganı: **“Her fincanda ortak bir hikâye.”**
 
-**[View the live website](https://yaren-kahve-atelier.erentur1905.chatgpt.site)**
+**[Canlı siteyi görüntüle](https://yaren-kahve-atelier.erentur1905.chatgpt.site)**
 
-This fictional brand website was created as a recruitment assessment project. The interface and all visitor-facing copy are in Turkish.
+Bu hayali marka sitesi, işe alım değerlendirmesi kapsamında bir deneme projesi olarak hazırlanmıştır. Arayüzün ve teslimin dili Türkçedir.
 
-## Features
+## Özellikler
 
-- Responsive, single-page layout with an approved wordmark, warm photography, local fonts, and a restrained cream, brown, and olive palette.
-- A full-screen, scroll-controlled cinematic story with four milestones: **Bean → Cezve → Cup → Sharing**.
-- Separate approved 16:9 and 9:16 videos, selected by viewport orientation. Square and landscape viewports use the landscape source; portrait viewports use the portrait source.
-- Reversible video scrubbing, a frame that holds while scrolling stops, and progress preservation when the viewport changes orientation.
-- A usable four-image story while the selected video downloads, followed by a handoff to the current scroll position.
-- A reduced-motion experience with static images in normal document flow and no cinematic video download.
-- Turkish coffee, espresso, and filter coffee cards with illustrative prices per cup or shot.
-- A mood-based coffee recommender with focused product navigation, controlled smooth scrolling, and reduced-motion support.
-- Keyboard-accessible navigation, a mobile menu, visible focus states, and contact form validation.
+- Onaylı logo, sıcak tonlu fotoğraflar, yerel fontlar ve krem, koyu kahve, zeytin yeşili paletiyle responsive, tek sayfalık tasarım.
+- **Çekirdek → Cezve → Fincan → Paylaşım** aşamalarından oluşan, tam ekran ve kaydırmayla kontrol edilen sinematik hikâye.
+- Ekran yönüne göre seçilen, onaylı 16:9 ve 9:16 videolar. Kare ve yatay ekranlarda yatay kaynak, dikey ekranlarda portre kaynak kullanılır.
+- İleri ve geri video sarma, kaydırma durduğunda karenin sabit kalması ve ekran yönü değişirken izlenen ilerlemenin korunması.
+- Seçilen video indirilirken dört sabit görselle kullanılabilen hikâye ve video hazır olduğunda mevcut kaydırma konumundan devam etme.
+- Hareket azaltma tercihinde, sinematik video indirilmeden normal sayfa akışında gösterilen sabit görseller.
+- Türk kahvesi, espresso ve filtre kahve için fincan veya shot bazında örnek fiyatlar içeren ürün kartları.
+- Ruh hâline göre kahve önerisi; ilgili ürüne odaklanma, kontrollü yumuşak kaydırma ve hareket azaltma desteği.
+- Klavyeyle kullanılabilen navigasyon, mobil menü, görünür odak göstergeleri ve iletişim formu doğrulaması.
 
-The contact form is a **client-side demonstration**: it validates the fields and displays a success message without sending or storing messages. Product prices are illustrative; the project does not implement checkout or online ordering.
+İletişim formu **tarayıcı tarafında çalışan bir demodur**: alanları doğrular ve mesajı göndermeden veya saklamadan başarı bildirimi gösterir. Ürün fiyatları örnektir; projede ödeme veya çevrim içi sipariş altyapısı bulunmaz.
 
-## Technology
+## Kullanılan teknolojiler
 
-- React 19 and JavaScript / JSX
+- React 19 ve JavaScript / JSX
 - Vite 7
-- Plain CSS with responsive layouts and reduced-motion support
-- Native HTML video, browser media APIs, and a small canvas bridge for source changes
-- ESLint and Prettier
-- Node.js's built-in test runner and Playwright
-- Sharp and FFmpeg-based scripts for maintaining media derivatives; Lighthouse tooling for local audits
+- Responsive yerleşimler ve hareket azaltma desteği için yalın CSS
+- Tarayıcının yerel HTML video ve medya API'leri; kaynak değişiminde kullanılan küçük bir canvas geçiş katmanı
+- ESLint ve Prettier
+- Node.js'in yerleşik test çalıştırıcısı ve Playwright
+- Medya türevlerini hazırlamak için Sharp ve FFmpeg tabanlı betikler; yerel performans denetimleri için Lighthouse
 
-The application requires no backend or API key. FFmpeg is only needed when explicitly running media preparation scripts; it is not needed for ordinary development or builds.
+Uygulama sunucu tarafı hizmeti veya API anahtarı gerektirmez. FFmpeg yalnızca medya hazırlama betikleri özellikle çalıştırılacaksa gereklidir; normal geliştirme veya derleme için gerekmez.
 
-## Getting started
+## Kullanılan yapay zekâ araçları ve modelleri
 
-Use Node.js **20.19+ or 22.12+** with npm. From the repository root:
+| Araç / model    | Projedeki görevi                                                                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ChatGPT / Codex | React/Vite uygulamasının geliştirilmesi, medya ve kaydırma entegrasyonu, hata düzeltmeleri, testler ve teslim belgelerinin hazırlanması.               |
+| Astra           | Tasarım, kod, erişilebilirlik, responsive davranış ve performans için bağımsız kalite denetimi; bulunan sorunların ve düzeltmelerin değerlendirilmesi. |
+| Gemini          | Kullanıcı tarafından sağlanan ve onaylanan fotogerçekçi sinematik videonun üretilmesi.                                                                 |
+
+Kesin model sürümleri ve Gemini tarafındaki video üretim modelinin adı proje kayıtlarında belirtilmediğinden bu bölümde sürüm tahmini yapılmamıştır. Yapay zekâ geliştirme ve içerik üretimi aşamasında kullanılmıştır; çalışan site herhangi bir yapay zekâ API'sine istek göndermez. Kahve önericisi önceden tanımlanmış eşleştirmelerle çalışır.
+
+## Kurulum ve geliştirme
+
+npm ile birlikte Node.js **20.19+ veya 22.12+** kullanın. Depo kök dizininde:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the local address printed by Vite. Keep the supplied `package-lock.json` for reproducible dependency installation.
+Vite'ın terminalde gösterdiği yerel adresi açın. Bağımlılıkların aynı sürümlerle kurulabilmesi için sağlanan `package-lock.json` dosyasını koruyun.
 
-## Production build
+## Üretim derlemesi
 
 ```sh
 npm run build
 npm run preview
 ```
 
-The build is written to `dist/`. Images, fonts, media configuration, and video files are served from `public/` using root-relative paths. The current configuration expects deployment at the origin root; hosting under a URL subdirectory would require a separate deployment-path review.
+Derleme çıktısı `dist/` klasörüne yazılır. Görseller, fontlar, medya yapılandırması ve videolar, `public/` klasöründen site köküne göre yollarla sunulur. Mevcut yapılandırma sitenin alan adı kökünde yayımlanmasını bekler; bir URL alt dizininde barındırma için dosya yollarının ayrıca değerlendirilmesi gerekir.
 
-The existing ChatGPT Sites release remains at the live URL above. Its hosting configuration is retained in `.openai/hosting.json`; publishing is a separate operation and is outside this GitHub source delivery.
+Mevcut ChatGPT Sites yayını yukarıdaki canlı adreste kalır. Yayın yapılandırması `.openai/hosting.json` dosyasında korunur; yayımlama ayrı bir işlemdir ve bu GitHub kaynak tesliminin kapsamı dışındadır.
 
-## Checks and tests
+## Kontroller ve testler
 
 ```sh
 npm run lint
@@ -65,43 +75,43 @@ npm run test:e2e
 npm run build
 ```
 
-Playwright starts the development server on `127.0.0.1:5180`. Keep that port free, or ensure any reused server is running this checkout. On supported Linux environments, browser system dependencies may also be required. `PLAYWRIGHT_CHROMIUM_EXECUTABLE` can point to an existing compatible Chromium executable.
+Playwright, geliştirme sunucusunu `127.0.0.1:5180` adresinde başlatır. Bu portu boş bırakın veya yeniden kullanılan sunucunun bu çalışma kopyasını çalıştırdığından emin olun. Desteklenen Linux ortamlarında tarayıcıların sistem bağımlılıkları da gerekebilir. `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, mevcut ve uyumlu bir Chromium çalıştırılabilir dosyasının yolunu belirlemek için kullanılabilir.
 
-The suite covers form validation, navigation and keyboard interaction, responsive layouts, video selection, forward and reverse scrubbing, orientation changes, logo and caption timing, loading fallbacks, reduced motion, and coffee recommendations. Delivery screenshot tests are available through `npm run test:screenshots`.
+Testler; form doğrulamasını, navigasyon ve klavye etkileşimlerini, responsive yerleşimleri, video seçimini, ileri/geri sarmayı, ekran yönü değişimlerini, logo ve metin zamanlamasını, yükleme sırasında alternatif görselleri, hareket azaltmayı ve kahve önerilerini kapsar. Teslim ekran görüntüsü testleri `npm run test:screenshots` komutuyla çalıştırılabilir.
 
-Windows WebKit may lack the H.264 support needed to decode the approved MP4s. The corresponding test checks the accessible fallback in that environment; it does not establish real iPhone Safari playback compatibility. Physical-device testing remains distinct from browser emulation.
+Windows WebKit ortamında onaylı MP4'leri çözmek için gereken H.264 desteği bulunmayabilir. İlgili test bu ortamda erişilebilir alternatif görünümü kontrol eder; gerçek iPhone Safari video uyumluluğunu kanıtlamaz. Fiziksel cihaz testi, tarayıcı emülasyonundan ayrı değerlendirilir.
 
-## Project structure
+## Proje yapısı
 
 ```text
 src/
-  components/       Header, product cards, contact form, and shared brand UI
-  story/            Sticky story, media adapter, scrubbing, and narrative timeline
-  recommender/      Coffee recommendation interface and product navigation
-  navigation.mjs    Section navigation
-  styles.css        Shared site styles
+  components/       Header, ürün kartları, iletişim formu ve ortak marka bileşenleri
+  story/            Sticky hikâye, medya katmanı, video sarma ve anlatı zaman çizelgesi
+  recommender/      Kahve önericisi arayüzü ve ürüne yönlendirme
+  navigation.mjs    Sayfa bölümleri arasında gezinme
+  styles.css        Ortak site stilleri
 public/
-  images/           Approved brand, hero, product, and story images
-  video/            Optimized landscape/portrait videos and story stills
-  fonts/            Local fonts and their license notices
-  story/            Retained sequence fixtures used by automated tests
-source-media/       Original approved media masters and encoding notes
-scripts/            Media preparation and local audit tools
-tests/              Unit and browser tests
-scene-source/       Retained validation fixture used by the asset tests
-docs/               Implementation notes and clearly historical records
+  images/           Onaylı marka, hero, ürün ve hikâye görselleri
+  video/            Optimize yatay/dikey videolar ve sabit hikâye görselleri
+  fonts/            Yerel fontlar ve lisans bildirimleri
+  story/            Otomatik testlerin kullandığı korunmuş kare dizisi girdileri
+source-media/       Onaylı orijinal medya master'ları ve kodlama notları
+scripts/            Medya hazırlama ve yerel denetim araçları
+tests/              Birim ve tarayıcı testleri
+scene-source/       Medya testlerinin kullandığı korunmuş doğrulama girdisi
+docs/               Uygulama notları ve tarihsel kayıtlar
 ```
 
-## Media and loading
+## Medya ve yükleme davranışı
 
-Only the selected cinematic video is downloaded when the story is entered. The current Sites host does not provide the byte-range responses required for reliable native seeking, so the application buffers that file and supplies a seekable Blob URL to the existing video scrubber. Small story images take priority during loading. Previously selected variants are cached within the mounted experience, and obsolete media resources are cleaned up.
+Hikâye bölümüne girildiğinde yalnızca seçilen sinematik video indirilir. Mevcut Sites sunucusu güvenilir yerel video araması için gereken byte-range yanıtlarını sağlamadığından, uygulama dosyayı belleğe alır ve mevcut video sarma motoruna zaman içinde arama yapılabilen bir Blob URL sunar. Yükleme sırasında küçük hikâye görsellerine öncelik verilir. Daha önce seçilmiş varyantlar, bileşen bağlı kaldığı sürece önbellekte tutulur; artık kullanılmayan medya kaynakları temizlenir.
 
-The approved videos, original masters, logo, hero, and narrative timings are preserved. Avoid replacing the videos, removing test fixtures, or changing the loading mode without testing seeking and fallbacks on the target host. See `source-media/README.md` for encoding provenance; older implementation notes may describe earlier behavior, while the current orientation rule is defined in `src/story/timeline.mjs`.
+Onaylı videolar, orijinal master'lar, logo, hero ve anlatı zamanlamaları korunur. Hedef sunucuda video sarma ve alternatif görseller test edilmeden videoları değiştirmeyin, test girdilerini kaldırmayın veya yükleme modunu değiştirmeyin. Kodlama bilgileri için `source-media/README.md` dosyasına bakın. Eski uygulama notları önceki davranışları anlatabilir; güncel ekran yönü kuralı `src/story/timeline.mjs` dosyasında tanımlıdır.
 
-## Source provenance
+## Kaynak doğrulaması
 
-This repository is prepared from the **final v10 source archive**, `yaren-final-v10-github-source.zip`, verified against source commit **`d9c96dc4c5f5a2e27bf039c39546ee3dc7acb9c8`**. The v10 header contains only the approved logo and navigation; the secondary tagline has been removed.
+Bu depo, **nihai v10 kaynak arşivi** olan `yaren-final-v10-github-source.zip` üzerinden hazırlanmış ve **`d9c96dc4c5f5a2e27bf039c39546ee3dc7acb9c8`** kaynak commit'iyle doğrulanmıştır. V10 header'ında yalnızca onaylı logo ve navigasyon bulunur; ikinci slogan kaldırılmıştır.
 
-Repository preparation updates documentation, ignore rules, and line-ending configuration only. The approved application source, media, styles, and tests remain identical to that v10 delivery in Git's canonical form. Dependencies, generated builds, local test results, backup archives, and credentials are excluded.
+Depo hazırlığı yalnızca belgeleri, hariç tutma kurallarını ve satır sonu yapılandırmasını günceller. Onaylı uygulama kodu, medyalar, stiller ve testler Git'in standart dosya biçiminde v10 teslimiyle aynıdır. Bağımlılıklar, üretilen derlemeler, yerel test çıktıları, yedek arşivleri ve kimlik doğrulama bilgileri depo dışında tutulur.
 
-No open-source license is granted by this repository. Keep the supplied third-party font license notices with their assets; brand and media permissions should be reviewed before redistribution.
+Bu depo için açık kaynak lisansı tanımlanmamıştır. Üçüncü taraf fontların sağlanan lisans bildirimlerini ilgili dosyalarla birlikte koruyun; yeniden dağıtımdan önce marka ve medya kullanım izinlerini değerlendirin.
