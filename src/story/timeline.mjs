@@ -1,10 +1,6 @@
 // Strictly portrait; a square viewport uses the landscape source.
 export const portraitQuery = 'not all and (min-aspect-ratio: 1/1)';
 
-// Inspected compositions in both approved 24fps videos: frames 42/84/138/222.
-// These are interior visual stops, independent of the narrative start thresholds.
-export const cinematicStops = [1.75, 3.5, 5.75, 9.25];
-
 export const milestones = [
   {
     start: 0,

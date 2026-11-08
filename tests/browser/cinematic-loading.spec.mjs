@@ -1,5 +1,19 @@
 import { test, expect } from '@playwright/test';
 
+async function scrub(page, progress) {
+  await page.locator('.journey-panel').evaluate(
+    (s, p) =>
+      scrollTo({
+        top:
+          scrollY +
+          s.getBoundingClientRect().top +
+          (s.offsetHeight - s.querySelector('.journey-stage').offsetHeight) * p,
+        behavior: 'instant',
+      }),
+    progress,
+  );
+}
+
 for (const [width, height, source] of [
   [390, 844, '/video/yaren-scroll-portrait.mp4'],
   [1920, 1080, '/video/yaren-scroll.mp4'],
@@ -57,11 +71,10 @@ test('reduced motion never prepares either video, even after waiting and visitin
   await page.waitForTimeout(1200);
   await page.locator('#kahve-yolculugu').scrollIntoViewIfNeeded();
   await expect(page.locator('.journey-reduced')).toBeVisible();
-  await expect(page.locator('.journey-stops')).toHaveCount(0);
   expect(requests).toEqual([]);
 });
 
-test('rapid cold entry uses every still and hands off at the current stop without resetting scroll', async ({
+test('rapid cold entry uses every still and hands off at the current arbitrary frame without resetting scroll', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -82,10 +95,15 @@ test('rapid cold entry uses every still and hands off at the current stop withou
       'data-still-ready',
       'true',
     );
-    const buttons = page.locator('.journey-stops button');
-    for (const phase of [0, 1, 2, 3, 1, 2]) {
-      await buttons.nth(phase).click();
-      await expect(buttons.nth(phase)).toHaveAttribute('aria-current', 'step');
+    for (const [progress, phase] of [
+      [0.218, 0],
+      [0.413, 1],
+      [0.613, 2],
+      [0.913, 3],
+      [0.413, 1],
+      [0.613, 2],
+    ]) {
+      await scrub(page, progress);
       await expect(page.locator('.journey-video-poster')).toHaveAttribute(
         'src',
         `/video/still-0${phase + 2}.webp`,
@@ -99,10 +117,21 @@ test('rapid cold entry uses every still and hands off at the current stop withou
         'data-fallback',
         'true',
       );
+      await expect(page.locator('.journey-ambient')).toBeVisible();
+      await expect(page.locator('.journey-ambient')).toHaveAttribute(
+        'data-ready',
+        'true',
+      );
+      expect(
+        await page.locator('.journey-ambient').evaluate((c) => {
+          const pixels = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+          return pixels.some((value, index) => index % 4 !== 3 && value > 0);
+        }),
+      ).toBe(true);
     }
     await expect
       .poll(() => page.locator('.journey-media').evaluate((el) => +el.dataset.progress))
-      .toBeCloseTo(0.575, 3);
+      .toBeCloseTo(0.613, 3);
     const before = await page.evaluate(() => scrollY);
     release();
     await expect(page.locator('.journey-media')).toHaveAttribute(
@@ -111,7 +140,7 @@ test('rapid cold entry uses every still and hands off at the current stop withou
     );
     await expect
       .poll(() => page.locator('video').evaluate((v) => v.currentTime))
-      .toBeCloseTo(5.75, 1);
+      .toBeCloseTo(6.13, 1);
     expect(await page.evaluate(() => scrollY)).toBe(before);
     expect(requests).toEqual(['/video/yaren-scroll-portrait.mp4']);
   } finally {
@@ -119,7 +148,7 @@ test('rapid cold entry uses every still and hands off at the current stop withou
   }
 });
 
-test('a real first-load failure stays visible with usable stills, dots and an exit', async ({
+test('a real first-load failure stays visible with usable stills and an exit', async ({
   page,
 }) => {
   await page.route('**/*.mp4', (route) =>
@@ -130,7 +159,7 @@ test('a real first-load failure stays visible with usable stills, dots and an ex
   const status = page.locator('.journey-status');
   await expect(status).toContainText('Medya yüklenemedi');
   expect((await status.boundingBox()).height).toBeGreaterThan(10);
-  await page.locator('.journey-stops button').nth(2).click();
+  await scrub(page, 0.631);
   await expect(page.locator('.journey-video-poster')).toHaveAttribute(
     'src',
     '/video/still-04.webp',
@@ -181,7 +210,6 @@ test('rotation during background preparation cancels the obsolete source without
       '/video/yaren-scroll.mp4',
     ]);
     expect(await page.evaluate(() => scrollY)).toBe(0);
-    await expect(page.locator('.journey-stops')).toHaveCount(0);
     await expect(page.locator('video')).toHaveJSProperty('paused', true);
   } finally {
     release();

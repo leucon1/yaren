@@ -11,8 +11,8 @@ Bu hayali marka sitesi, işe alım değerlendirmesi kapsamında bir deneme proje
 - Onaylı logo, sıcak tonlu fotoğraflar, yerel fontlar ve krem, koyu kahve, zeytin yeşili paletiyle responsive, tek sayfalık tasarım.
 - **Çekirdek → Cezve → Fincan → Paylaşım** aşamalarından oluşan, tam ekran ve kaydırmayla kontrol edilen sinematik hikâye.
 - Ekran yönüne göre seçilen, onaylı 16:9 ve 9:16 videolar. Kare ve yatay ekranlarda yatay kaynak, dikey ekranlarda portre kaynak kullanılır.
-- İleri ve geri video sarma; kullanıcı kaydırmayı bıraktığında görsel olarak seçilmiş dört duraktan en yakınına kısa, kesilebilir bir geçiş ve ekran yönü değişirken izlenen ilerlemenin korunması.
-- İnce bir dikey çizgiyle bağlı dört tıklanabilir nokta; aktif durak halkası, en az 44×44 px dokunma alanı ve klavye desteği.
+- V10'daki doğal, serbest ve çift yönlü video sarma; kaydırma durduğunda bulunulan karede kalma ve ekran yönü değişirken izlenen ilerlemenin korunması.
+- Yatay ve dikey yerleşimlerde ana video kırpılmadan, aktif karenin ince kenar şeritlerinden üretilen yumuşak arka plan dolgusu.
 - Hero görseli ve fontlar hazır olduktan sonra yalnızca seçilen videonun arka planda hazırlanması; yükleme sürerken dört sabit görselle kullanılabilen hikâye ve video hazır olduğunda mevcut kaydırma konumundan devam etme.
 - Hareket azaltma tercihinde, sinematik video indirilmeden normal sayfa akışında gösterilen sabit görseller.
 - Türk kahvesi, espresso ve filtre kahve için fincan veya shot bazında örnek fiyatlar içeren ürün kartları.
@@ -84,7 +84,7 @@ npm run build
 
 Playwright, geliştirme sunucusunu `127.0.0.1:5180` adresinde başlatır. Bu portu boş bırakın veya yeniden kullanılan sunucunun bu çalışma kopyasını çalıştırdığından emin olun. Desteklenen Linux ortamlarında tarayıcıların sistem bağımlılıkları da gerekebilir. `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, mevcut ve uyumlu bir Chromium çalıştırılabilir dosyasının yolunu belirlemek için kullanılabilir.
 
-Testler; form doğrulamasını, navigasyon ve klavye etkileşimlerini, responsive yerleşimleri, video seçimini, ileri/geri sarmayı, dört duraklı yerleşmeyi, art arda nokta seçimlerini, dokunma hareketlerini, ekran yönü değişimlerini, logo ve metin zamanlamasını, hero sonrasında tek kaynak hazırlığını, yükleme sırasında alternatif görselleri, hareket azaltmayı ve kahve önerilerini kapsar. Teslim ekran görüntüsü testleri `npm run test:screenshots` komutuyla çalıştırılabilir.
+Testler; form doğrulamasını, navigasyon ve klavye etkileşimlerini, responsive yerleşimleri, video seçimini, ileri/geri sarmayı, hafif ve hızlı kaydırma sonrasında karenin kendiliğinden değişmemesini, dokunma hareketlerini, ekran yönü değişimlerini, logo ve metin zamanlamasını, kenar dolgusunun kareyle eşleşmesini ve beklerken çizilmemesini, hero sonrasında tek kaynak hazırlığını, yükleme sırasında alternatif görselleri, hareket azaltmayı ve kahve önerilerini kapsar. Teslim ekran görüntüsü testleri `npm run test:screenshots` komutuyla çalıştırılabilir.
 
 Windows WebKit ortamında onaylı MP4'leri çözmek için gereken H.264 desteği bulunmayabilir. İlgili test bu ortamda erişilebilir alternatif görünümü kontrol eder; gerçek iPhone Safari video uyumluluğunu kanıtlamaz. Fiziksel cihaz testi, tarayıcı emülasyonundan ayrı değerlendirilir.
 
@@ -117,7 +117,9 @@ docs/               Uygulama notları ve tarihsel kayıtlar
 
 Mevcut Sites sunucusu güvenilir yerel video araması için gereken byte-range yanıtlarını sağlamadığından, uygulama dosyayı belleğe alır ve mevcut video sarma motoruna zaman içinde arama yapılabilen bir Blob URL sunar. Yükleme sırasında küçük hikâye görsellerine öncelik verilir. Normal hazırlık bilgisi yalnız ekran okuyuculara iletilir; gerçek yükleme hatası görünür kalır. Daha önce seçilmiş varyantlar, bileşen bağlı kaldığı sürece önbellekte tutulur; artık kullanılmayan medya kaynakları temizlenir.
 
-`src/story/four-stop.mjs`, mevcut kaydırma geometrisini kullanarak kullanıcı girdisinden sonra 240 ms duraklama bekler ve en yakın görsel durağa en fazla 650 ms süren bir yerleşme uygular. Duraklar `src/story/timeline.mjs` içinde **1,75 / 3,50 / 5,75 / 9,25 saniye** olarak tanımlıdır; onaylı videoların 42/84/138/222. kareleri incelenerek seçilmiştir. Anlatı aşamalarının başlangıç eşikleriyle aynı değildir. İki video aynı normalize ilerlemeyi kullanır. Yeni kullanıcı girdisi veya ekran boyutu değişikliği yerleşmeyi keser; başlangıç logosu, doğal çıkış ve doğrudan bölüm bağlantıları kullanıcıyı geri çekmez. Noktalarda Yukarı/Aşağı okları ile Home/End tuşları kullanılabilir; Escape ve “Hikâyeyi atla” bağlantısı hikâyeden çıkarır.
+`PinnedScene.jsx`, v10'daki kaydırma geometrisini kullanarak iki videoyu aynı normalize ilerlemeyle kontrol eder. Video, kaydırma bırakıldığında bulunulan karede sabit kalır; otomatik yerleşme veya noktalı gösterge yoktur. Dört aşama yalnızca anlatı metinlerinin kilometre taşlarıdır. Başlangıç logosu, doğal çıkış, doğrudan bölüm bağlantıları, Escape ve “Hikâyeyi atla” korunur.
+
+Yatay ve dikey ana videolar `contain` olarak gösterilir. Oran farkından oluşan boşluklar, mevcut kare ya da bekleme görselinin 8 px kenar şeritleri uzatılarak tek, en uzun kenarı 320 px olan küçük canvas üzerinde doldurulur ve CSS ile yumuşatılır. Tam görüntü boşluklarda tekrar edilmez. İkinci video çözücüsü veya sürekli çalışan çizim döngüsü kullanılmaz; dolgu yalnızca yeni kare, görsel veya boyut değişiminde güncellenir. Geçiş sırasında tutulan kare de aynı yaklaşımı kullanır.
 
 Onaylı videolar, orijinal master'lar, logo, hero ve anlatı zamanlamaları korunur. Hedef sunucuda video sarma ve alternatif görseller test edilmeden videoları değiştirmeyin, test girdilerini kaldırmayın veya yükleme modunu değiştirmeyin. Kodlama bilgileri için `source-media/README.md` dosyasına bakın. Eski uygulama notları önceki davranışları anlatabilir; güncel ekran yönü kuralı `src/story/timeline.mjs` dosyasında tanımlıdır.
 
@@ -125,6 +127,6 @@ Onaylı videolar, orijinal master'lar, logo, hero ve anlatı zamanlamaları koru
 
 Bu depo, **nihai v10 kaynak arşivi** olan `yaren-final-v10-github-source.zip` üzerinden hazırlanmış ve **`d9c96dc4c5f5a2e27bf039c39546ee3dc7acb9c8`** kaynak commit'iyle doğrulanmıştır. V10 header'ında yalnızca onaylı logo ve navigasyon bulunur; ikinci slogan kaldırılmıştır.
 
-V11, bu doğrulanmış v10 tabanının GitHub `main` dalındaki `e0215334e03abc0a0fc90418e48ae7c3f817fa34` commit'i üzerinden geliştirilmiştir. Dört duraklı kontrol, ilk yükleme deneyimi ve hedefli responsive görsel düzeltmeler içerir. Onaylı yatay/dikey MP4'ler, master'lar, logo, hero ve hikâye metinleri değiştirilmemiştir. Canlı Sites yayını kullanıcı onayına kadar v10 olarak kalır; GitHub'a gönderim Sites yayını değildir. Bağımlılıklar, üretilen derlemeler, yerel test çıktıları, yedek arşivleri ve kimlik doğrulama bilgileri depo dışında tutulur.
+V11, bu doğrulanmış v10 tabanının GitHub `main` dalındaki `e0215334e03abc0a0fc90418e48ae7c3f817fa34` commit'i üzerinden geliştirilmiştir. İlk v11 commit'i `e18486a774d23b715198e37d07f66edef5167bf7` geçmişte korunur. Son revizyon, kullanıcı kararıyla otomatik durakları ve göstergesini kaldırır; doğal kaydırmayı, v11 yükleme/görsel iyileştirmelerini ve yeni dikey kenar dolgusunu içerir. Onaylı yatay/dikey MP4'ler, master'lar, logo, hero ve hikâye metinleri değiştirilmemiştir. Canlı Sites yayını kullanıcı onayına kadar v10 olarak kalır; GitHub'a gönderim Sites yayını değildir. Bağımlılıklar, üretilen derlemeler, yerel test çıktıları, yedek arşivleri ve kimlik doğrulama bilgileri depo dışında tutulur.
 
 Bu depo için açık kaynak lisansı tanımlanmamıştır. Üçüncü taraf fontların sağlanan lisans bildirimlerini ilgili dosyalarla birlikte koruyun; yeniden dağıtımdan önce marka ve medya kullanım izinlerini değerlendirin.

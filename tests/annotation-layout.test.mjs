@@ -36,6 +36,22 @@ test('intro is reversible, bounded and never displays competing logo and text', 
     times.toReversed().map(introVisibility).toReversed(),
   );
 });
+
+test('edge fill geometry contains portrait sources and landscape stills inside their display slot', () => {
+  for (const [width, height] of [
+    [390, 844],
+    [820, 1000],
+    [1080, 1920],
+  ]) {
+    const slot = containedFrame(width, height, 9, 16);
+    assert.equal(slot.width / slot.height, 9 / 16);
+    assert.ok(slot.x >= 0 && slot.y >= 0);
+    const image = containedFrame(slot.width, slot.height, 1280, 720);
+    assert.equal(image.width / image.height, 16 / 9);
+    assert.ok(image.x >= 0 && image.y >= 0);
+    assert.ok(image.width <= slot.width && image.height <= slot.height);
+  }
+});
 test('caption placement keeps longer copy within compact and ultrawide viewports', () => {
   for (const [width, height, labelWidth, labelHeight] of [
     [320, 568, 272, 190],

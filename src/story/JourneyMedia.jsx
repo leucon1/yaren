@@ -60,7 +60,7 @@ const JourneyMedia = forwardRef(function JourneyMedia(
     const ambient = ambientRef.current;
     const context = ambient.getContext('2d', { alpha: false });
     const paintAmbient = (source) => {
-      if (disposed || !context || root.dataset.format === 'portrait') return;
+      if (disposed || !context) return;
       // Extend the current frame's edges, rather than duplicating a giant cup
       // behind the clear video. One tiny surface; no second decoder or idle loop.
       const scale = Math.min(320 / root.clientWidth, 320 / root.clientHeight);
@@ -68,10 +68,21 @@ const JourneyMedia = forwardRef(function JourneyMedia(
       const height = Math.max(1, Math.round(root.clientHeight * scale));
       if (ambient.width !== width) ambient.width = width;
       if (ambient.height !== height) ambient.height = height;
-      const frame = containedFrame(width, height);
       const sourceWidth = source.videoWidth || source.naturalWidth || source.width;
       const sourceHeight = source.videoHeight || source.naturalHeight || source.height;
       if (!sourceWidth || !sourceHeight) return;
+      const portraitFrame = root.dataset.format === 'portrait';
+      const slot = containedFrame(
+        width,
+        height,
+        portraitFrame ? 9 : 16,
+        portraitFrame ? 16 : 9,
+      );
+      // A landscape fallback still is itself contained within the portrait slot.
+      // Match that visible image exactly before stretching only its edge strips.
+      const frame = containedFrame(slot.width, slot.height, sourceWidth, sourceHeight);
+      frame.x += slot.x;
+      frame.y += slot.y;
       context.drawImage(
         source,
         0,
@@ -111,6 +122,12 @@ const JourneyMedia = forwardRef(function JourneyMedia(
     };
     const poster = root.querySelector('.journey-video-poster');
     const paintPoster = () => {
+      // A replacement poster may load before the held frame is released.
+      // Its edges must not overwrite the edges of the frame actually on screen.
+      if (root.dataset.holding === 'true') {
+        paintAmbient(canvas);
+        return;
+      }
       if (
         (root.dataset.kind === 'poster' || root.dataset.fallback === 'true') &&
         poster.complete &&
@@ -143,7 +160,9 @@ const JourneyMedia = forwardRef(function JourneyMedia(
     fallbackRef.current = showStill;
     poster.addEventListener('load', paintPoster);
     const resizeObserver = new ResizeObserver(() => {
-      if (root.dataset.kind === 'video' && video.readyState >= 2 && !video.seeking)
+      if (root.dataset.holding === 'true') paintAmbient(canvas);
+      else if (root.dataset.fallback === 'true') paintPoster();
+      else if (root.dataset.kind === 'video' && video.readyState >= 2 && !video.seeking)
         paintAmbient(video);
       else if (
         root.dataset.kind === 'sequence' &&
@@ -224,6 +243,7 @@ const JourneyMedia = forwardRef(function JourneyMedia(
         root.dataset.kind = 'video';
         root.dataset.fallback = 'true';
         root.dataset.stillReady = 'false';
+        if (root.dataset.holding === 'true') paintAmbient(canvas);
         // These small, existing images are requested before the large MP4.
         for (let index = 0; index < milestones.length; index++) {
           const image = new Image();
@@ -269,9 +289,9 @@ const JourneyMedia = forwardRef(function JourneyMedia(
           (time) => {
             if (disposed || root.dataset.kind !== 'video') return;
             root.dataset.frameTime = time.toFixed(5);
-            paintAmbient(video);
             ready();
             if (root.dataset.fallback === 'true') return;
+            paintAmbient(video);
             // Keep the approved narrative timing identical even if the two
             // encodes have slightly different real metadata durations.
             onFrame((time / video.duration) * 10, { portraitVideo });

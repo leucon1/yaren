@@ -111,7 +111,13 @@ for (const [name, width, height] of sizes) {
     expect(frame.width / frame.height).toBeCloseTo(portrait ? 9 / 16 : 16 / 9, 2);
     expect(frame.x).toBeGreaterThanOrEqual(-1);
     expect(frame.x + frame.width).toBeLessThanOrEqual(width + 1);
-    if (portrait) await expect(page.locator('.journey-ambient')).not.toBeVisible();
+    if (portrait) {
+      await expect(page.locator('.journey-ambient')).toBeVisible();
+      await expect(page.locator('.journey-ambient')).toHaveAttribute(
+        'data-ready',
+        'true',
+      );
+    }
     const time = await page.locator('video').evaluate((v) => v.currentTime);
     await page.waitForTimeout(180);
     expect(await page.locator('video').evaluate((v) => v.currentTime)).toBe(time);
@@ -347,7 +353,7 @@ test('landscape to portrait holds one frozen image during delayed or failed repl
   await expect(page.locator('.journey-media')).toHaveAttribute('data-holding', 'true');
   await expect(page.locator('.journey-canvas')).toBeVisible();
   await expect(page.locator('.journey-video-poster')).not.toBeVisible();
-  await expect(page.locator('.journey-ambient')).not.toBeVisible();
+  await expect(page.locator('.journey-ambient')).toBeVisible();
   release();
   await expect(page.locator('.journey-status')).toContainText('Medya yüklenemedi');
   await expect(page.locator('.journey-canvas')).toBeVisible();

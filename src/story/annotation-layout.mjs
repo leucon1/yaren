@@ -1,10 +1,10 @@
-export function containedFrame(width, height) {
-  const scale = Math.min(width / 1280, height / 720);
+export function containedFrame(width, height, sourceWidth = 1280, sourceHeight = 720) {
+  const scale = Math.min(width / sourceWidth, height / sourceHeight);
   return {
-    x: (width - 1280 * scale) / 2,
-    y: (height - 720 * scale) / 2,
-    width: 1280 * scale,
-    height: 720 * scale,
+    x: (width - sourceWidth * scale) / 2,
+    y: (height - sourceHeight * scale) / 2,
+    width: sourceWidth * scale,
+    height: sourceHeight * scale,
   };
 }
 
