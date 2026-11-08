@@ -32,15 +32,21 @@ Bu hayali marka sitesi, işe alım değerlendirmesi kapsamında bir deneme proje
 
 Uygulama sunucu tarafı hizmeti veya API anahtarı gerektirmez. FFmpeg yalnızca medya hazırlama betikleri özellikle çalıştırılacaksa gereklidir; normal geliştirme veya derleme için gerekmez.
 
-## Kullanılan yapay zekâ araçları ve modelleri
+## Geliştirme süreci ve kullanılan araçlar
 
-| Araç / model    | Projedeki görevi                                                                                                                                       |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ChatGPT / Codex | React/Vite uygulamasının geliştirilmesi, medya ve kaydırma entegrasyonu, hata düzeltmeleri, testler ve teslim belgelerinin hazırlanması.               |
-| Astra           | Tasarım, kod, erişilebilirlik, responsive davranış ve performans için bağımsız kalite denetimi; bulunan sorunların ve düzeltmelerin değerlendirilmesi. |
-| Gemini          | Kullanıcı tarafından sağlanan ve onaylanan fotogerçekçi sinematik videonun üretilmesi.                                                                 |
+Yâren; yapay zekâ destekli planlama, geliştirme ve içerik üretim araçlarından yararlanılarak hazırlanmıştır. Marka kimliği, yaratıcı kararlar, video seçimleri, manuel düzenlemeler ve nihai onaylar kullanıcı tarafından yönetilmiştir.
 
-Kesin model sürümleri ve Gemini tarafındaki video üretim modelinin adı proje kayıtlarında belirtilmediğinden bu bölümde sürüm tahmini yapılmamıştır. Yapay zekâ geliştirme ve içerik üretimi aşamasında kullanılmıştır; çalışan site herhangi bir yapay zekâ API'sine istek göndermez. Kahve önericisi önceden tanımlanmış eşleştirmelerle çalışır.
+| Araç / Model                   | Projedeki görevi                                                                                                                        |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **GPT-6**                      | Genel planlama, marka kimliğinin oluşturulması, tasarım kararları, yaratıcı yönlendirme ve ara değerlendirmeler.                        |
+| **GPT-6.1 Sol**                | React/Vite geliştirme, responsive uygulama, sinematik video entegrasyonu, teknik düzeltmeler, testler ve ChatGPT Sites yayın süreçleri. |
+| **Gemini Omni 1.2 Flash**      | Onaylı orijinal 16:9 sinematik videonun yapay zekâ ile üretilmesi.                                                                      |
+| **ChatGPT ImageGen**           | Ana sayfadaki hero görselinin üretilmesi.                                                                                               |
+| **CapCut**                     | Orijinal 16:9 sinematik videonun manuel keyframe ve kadraj ayarlamalarıyla nihai 9:16 dikey sürüme dönüştürülmesi.                      |
+| **GPT-6 Astra**                | Bağımsız kalite kontrol; erişilebilirlik, performans, responsive davranış, sinematik scroll ve kullanıcı deneyiminin denetlenmesi.      |
+| **Claude Sonnet 5.5 (Medium)** | Ek kaynak kod incelemesi, kod kalitesinin değerlendirilmesi ve teknik iyileştirme önerileri.                                            |
+
+Yapay zekâ araçları planlama, geliştirme, içerik üretimi ve kalite kontrol aşamalarında kullanılmıştır. Çalışan uygulama herhangi bir yapay zekâ API'sine bağlı değildir; kahve önericisi önceden tanımlanmış eşleştirmelerle çalışır.
 
 ## Kurulum ve geliştirme
 
