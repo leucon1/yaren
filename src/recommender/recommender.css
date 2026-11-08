@@ -1,0 +1,181 @@
+.coffee-recommender {
+  position: fixed;
+  z-index: 40;
+  right: 28px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  width: min(320px, calc(100vw - 32px));
+  color: var(--brown);
+}
+.recommender-launch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-left: auto;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: 0 5px 24px #382d2614;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.recommender-launch svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.recommender-panel {
+  max-height: min(390px, calc(100dvh - 120px - env(safe-area-inset-bottom, 0px)));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin-bottom: 12px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: 0 12px 44px #382d2626;
+  animation: recommendation-arrive 180ms ease-out;
+}
+.recommender-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.recommender-heading .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--olive);
+  margin-bottom: 10px;
+}
+.recommender-heading h2 {
+  font-size: 29px;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.recommender-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -10px -10px 0 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-size: 26px;
+}
+.recommender-options {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+.recommender-options li + li {
+  margin-top: 4px;
+}
+.recommender-options button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 6px;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.recommender-options button:hover,
+.recommender-again:hover {
+  color: var(--olive);
+}
+.recommender-options button > span {
+  font-size: 12px;
+  color: var(--olive);
+}
+.recommender-result {
+  margin-top: 16px;
+}
+.recommender-result h3 {
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.recommender-result > p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-top: 14px;
+}
+.recommender-view.button {
+  width: 100%;
+  margin-top: 16px;
+  min-height: 48px;
+}
+.recommender-again {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 10px 0;
+  border: 0;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 13px;
+}
+.coffee-card {
+  scroll-margin-top: 112px;
+  outline: 1px solid transparent;
+  outline-offset: 9px;
+  transition:
+    box-shadow 250ms ease,
+    outline-color 250ms ease;
+}
+.coffee-card.is-recommended {
+  outline-color: var(--olive);
+  box-shadow: 0 0 0 9px #5e684812;
+}
+.coffee-card:focus-visible {
+  outline: 2px solid var(--olive);
+}
+@keyframes recommendation-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 649px) {
+  .coffee-recommender {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: min(300px, calc(100vw - 32px));
+  }
+  .recommender-panel {
+    padding: 18px;
+    max-height: min(330px, calc(50dvh - 76px - env(safe-area-inset-bottom, 0px)));
+  }
+  .recommender-heading h2 {
+    font-size: 27px;
+  }
+  .coffee-card {
+    scroll-margin-top: 96px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recommender-panel {
+    animation: none;
+  }
+  .coffee-card {
+    transition: none;
+  }
+}

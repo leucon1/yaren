@@ -1,0 +1,10 @@
+{
+  "kind": "video",
+  "src": "/video/yaren-scroll.mp4",
+  "frameRate": 24,
+  "loadMode": "buffer",
+  "portrait": {
+    "src": "/video/yaren-scroll-portrait.mp4",
+    "poster": "/video/still-portrait.webp"
+  }
+}

@@ -1,0 +1,30 @@
+node_modules/
+dist/
+.sites-workflow/
+*.log
+test-results/
+playwright-report/
+
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Backup archives and generated reports
+backups/
+*.zip
+*.tar
+*.tar.gz
+*.bundle
+coverage/
+.nyc_output/
+
+# Operating system metadata
+.DS_Store
+Thumbs.db

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "desktop": {
+    "count": 180,
+    "width": 960,
+    "height": 600,
+    "pattern": "/story/desktop/frame-{index}.webp"
+  },
+  "mobile": {
+    "count": 180,
+    "width": 540,
+    "height": 960,
+    "pattern": "/story/mobile/frame-{index}.webp"
+  }
+}

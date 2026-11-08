@@ -1,0 +1,21 @@
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests/browser',
+  fullyParallel: true,
+  workers: 2,
+  reporter: 'list',
+  use: {
+    baseURL: 'http://127.0.0.1:5180',
+    browserName: 'chromium',
+    launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE
+      ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE }
+      : {},
+    trace: 'retain-on-failure',
+  },
+  webServer: {
+    command: 'npm run dev -- --port 5180 --strictPort',
+    url: 'http://127.0.0.1:5180',
+    reuseExistingServer: !process.env.CI,
+  },
+});
