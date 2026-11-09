@@ -58,6 +58,23 @@ const JourneyMedia = forwardRef(function JourneyMedia(
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const ambient = ambientRef.current;
+    const frameElement = root.querySelector('.journey-frame');
+    const updateFrameMask = () => {
+      if (root.dataset.format !== 'portrait') {
+        frameElement.style.removeProperty('mask-image');
+        return;
+      }
+      // The approved C treatment softens only an actual ratio gap. It never
+      // changes video scale or crop, and runs on layout/source changes only.
+      const { width, height } = frameElement.getBoundingClientRect();
+      const horizontalGap = (root.clientWidth - width) / 2;
+      const verticalGap = (root.clientHeight - height) / 2;
+      const direction = horizontalGap > 8 ? 'right' : verticalGap > 8 ? 'bottom' : null;
+      const feather = Math.min(28, (direction === 'right' ? width : height) * 0.05);
+      frameElement.style.maskImage = direction
+        ? `linear-gradient(to ${direction}, transparent, #000 ${feather}px, #000 calc(100% - ${feather}px), transparent)`
+        : 'none';
+    };
     const context = ambient.getContext('2d', { alpha: false });
     const paintAmbient = (source) => {
       if (disposed || !context) return;
@@ -160,6 +177,7 @@ const JourneyMedia = forwardRef(function JourneyMedia(
     fallbackRef.current = showStill;
     poster.addEventListener('load', paintPoster);
     const resizeObserver = new ResizeObserver(() => {
+      updateFrameMask();
       if (root.dataset.holding === 'true') paintAmbient(canvas);
       else if (root.dataset.fallback === 'true') paintPoster();
       else if (root.dataset.kind === 'video' && video.readyState >= 2 && !video.seeking)
@@ -235,6 +253,7 @@ const JourneyMedia = forwardRef(function JourneyMedia(
         const portraitVideo = portrait && Boolean(config.portrait?.src);
         const variant = portraitVideo ? config.portrait : config;
         root.dataset.format = portraitVideo ? 'portrait' : 'landscape';
+        updateFrameMask();
         root.dataset.source = variant.src;
         videoPoster = variant.poster || '/video/still-01.webp';
         poster.src = videoPoster;

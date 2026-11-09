@@ -121,6 +121,8 @@ Mevcut Sites sunucusu güvenilir yerel video araması için gereken byte-range y
 
 Yatay ve dikey ana videolar `contain` olarak gösterilir. Oran farkından oluşan boşluklar, mevcut kare ya da bekleme görselinin 8 px kenar şeritleri uzatılarak tek, en uzun kenarı 320 px olan küçük canvas üzerinde doldurulur ve CSS ile yumuşatılır. Tam görüntü boşluklarda tekrar edilmez. İkinci video çözücüsü veya sürekli çalışan çizim döngüsü kullanılmaz; dolgu yalnızca yeni kare, görsel veya boyut değişiminde güncellenir. Geçiş sırasında tutulan kare de aynı yaklaşımı kullanır.
 
+Onaylı C tasarımında, portre çerçevenin kenarları dolguya yumuşak bir alfa geçişiyle birleşir. Gerçek alanda 8 px'ten fazla boşluk bulunan eksende, en fazla 28 px ve çerçeve boyutunun %5'i kadar geçiş uygulanır. Tam oturan 9:16 alanlarda maske kullanılmaz; yatay kaynağın mevcut görünümü korunur. Bu hesap yalnız boyut veya kaynak biçimi değiştiğinde, mevcut `ResizeObserver` üzerinden yapılır. Ana video büyütülmez veya kırpılmaz; sabit görseller ve yön değişiminde tutulan kare de aynı çerçeve geçişini kullanır.
+
 Onaylı videolar, orijinal master'lar, logo, hero ve anlatı zamanlamaları korunur. Hedef sunucuda video sarma ve alternatif görseller test edilmeden videoları değiştirmeyin, test girdilerini kaldırmayın veya yükleme modunu değiştirmeyin. Kodlama bilgileri için `source-media/README.md` dosyasına bakın. Eski uygulama notları önceki davranışları anlatabilir; güncel ekran yönü kuralı `src/story/timeline.mjs` dosyasında tanımlıdır.
 
 ## Kaynak doğrulaması
